@@ -1,5 +1,4 @@
 
-    //grab all the necessary DOM elements
     
   
     //form and relevant input fields
@@ -8,7 +7,7 @@
   
     //ul where new stores will live on the DOM
     const newStoreUl = document.getElementById("stores");
-
+    
 const createNewStore = event => {
     event.preventDefault();
     //stop form from trying to submit
@@ -33,9 +32,11 @@ function fetchStores(){
 
 function addStores(response){
     response.forEach( store => {
-      //   createNewStore(store)
       const newStoreUl = document.getElementById("stores");
-      newStoreUl.innerHTML += `<li> ${store.name} </li>`
+      newStoreUl.innerHTML += `<li> ${store.name} 
+      <button class="Add Item">Add Item</button></li>
+      ${store.id}<br><br>`
+      
     })
 }
 
@@ -57,7 +58,24 @@ function handleFormSubmit(e){
     fetch('http://localhost:3000/stores', configObj)
     .then(res => res.json())
     .then(data => {
-        debugger
+    })
+}
+
+
+
+    //grab all the necessary DOM elements
+
+function fetchItems(){
+    fetch('http://localhost:3000/items')
+    .then(res => res.json())
+    .then(addItems)
+}
+
+function addItems(response){
+    response.forEach( item => {
+      const newItemUl = document.getElementById("items");
+      newItemUl.innerHTML += `<li> ${item.name} ${item.store_id}</li>`
+      
     })
 }
 
@@ -72,7 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //attach event listeners
     fetchStores()
     newStoreForm.addEventListener("submit", handleFormSubmit)
-  
-  });
+
+    fetchItems()
+    
+});
   
   
