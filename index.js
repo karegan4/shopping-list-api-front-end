@@ -2,7 +2,7 @@
     
   
     //form and relevant input fields
-
+    const newFormButton = document.getElementById('new-form-btn')
     //stores
     const newStoreForm = document.getElementById("create-store-form");
     const newStoreName = document.getElementById("new-store-name");
@@ -50,14 +50,25 @@ function fetchStores(){
 
 }
 
-
+function hideBtnLoadForm(e){
+    e.target.hidden = true
+    const newForm = document.getElementById('new-form-container')
+    newForm.hidden = false
+}
 
 function addStores(response){
     response.forEach( store => {
       let newStoreUl = document.getElementById("stores");
       newStoreUl.innerHTML += `
     <li> ${store.name} 
-
+<button id=addItemButton>Add Item to ${store.name}</button>
+<div id="new-form-container" hidden="true">
+    <form id="item-form">
+    <h3>Add New Item</h3>
+    <label for="item-name">Name:</label>
+    <input type="text" name="name" id="item-name">
+    <input type="submit" value="Create">
+    </form>
     </li>
 `
 
@@ -66,9 +77,9 @@ function addStores(response){
     
 }
 
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-} 
+// function myFunction() {
+//   document.getElementById("myDropdown").classList.toggle("show");
+// } 
 
 function handleStoreFormSubmit(e){
     e.preventDefault()
@@ -125,6 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchStores()
     fetchItems()
     newStoreForm.addEventListener("submit", handleStoreFormSubmit)    
-
+    newFormButton.addEventListener('click', hideBtnLoadForm)
 });
   

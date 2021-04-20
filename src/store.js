@@ -2,24 +2,29 @@ class Store {
     static all = []
 
     constructor({id, name}){
-            this.id = id
+        this.id = id
         this.name = name
         this.element = document.createElement('li')
         this.element.id = `store-${id}`
-        this.storeList = document.getElementById('list')
+        this.storeList = document.getElementById('stores')
+        this.sorted = false
 
         Store.all.push(this)
     }
 
-    // addToDom(){
-    //     this.storeList.append(this.fullRender())
-    //     this.addEventListeners()
-    // }
+    attachToDom(){
+        this.storeList.append(this.fullRender())
 
-    // addEventListeners(){
-    //     this.element.addEventListener('click', this.displayItems)
-    // }
+    }
 
-    
+
+    fullRender(){
+        this.element.innerHTML = `
+        <h3>${this.name}</h3>
+        `
+        
+
+        return this.element
+    }
     
 }
