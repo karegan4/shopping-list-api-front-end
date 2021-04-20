@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     <title>Build a Shopping List App</title>
-
+    <link rel="stylesheet" href="../shopping-list-back-end/public/main.css">
 </head>
 
 <body>
@@ -24,30 +23,35 @@
         <div id="list">
             <h2>Stores</h2>
                 <ul style="font-weight: bold" id="stores">
+                    
                     <div id="itemList">
                         <ul style="font-weight: normal" id="items">
                     </ul>
                     </div>
                 
                 </ul>
-                <!-- <form id="create-item-form" action="#" method="post">
-                    <label for="new-item-name">Item Name:</label>
-                    <input type="text" id="new-item-name" name="new-item-name" placeholder="Item Name">
-                    <input type="submit" value="Add item">
-                </form> -->
-
-            
-
+                <input type="button" value="Add Item" id="addItemButton"/>
+                    <input type="text" class="form" name="addItemForm" id="addItemForm"/>
                     
-
-
-            
+                        <div class="dropdown">
+                            <button onclick="myFunction()" class="dropbtn">Store Name</button>
+                            <div id="myDropdown" class="dropdown-content">
+                              <a href="#">Link 1</a>
+                              <a href="#">Link 2</a>
+                              <a href="#">Link 3</a>
+                              <a id="demo"></a>
+                            </div>
+                          </div>
+                    <div id="addItem">      
+                    </div>
             
         </div>
 
         <script src="./index.js"></script>
+        <script src="./src/store.js"></script>
         
 
     </div>
+
 </body>
 </html>
