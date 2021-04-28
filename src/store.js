@@ -14,7 +14,11 @@ class Store {
 
     attachToDom(){
         this.storeList.append(this.fullRender())
+        this.addEventListeners()
+    }
 
+    addEventListeners(){
+        this.element.addEventListener('click', this.displayItems)
     }
 
 
@@ -26,5 +30,14 @@ class Store {
 
         return this.element
     }
+    
+    get items(){
+        return Item.all.filter(i => i.store_id == this.id)
+    }
+
+    static find(id) {
+        return Store.all.find(c => c.id == id)
+    }
+
     
 }
