@@ -3,6 +3,9 @@
   
     //form and relevant input fields
 
+    
+
+
     //stores
     const newStoreForm = document.getElementById("create-store-form");
     const newStoreName = document.getElementById("new-store-name");
@@ -18,6 +21,7 @@
     //items
     const newItemUl = document.getElementById("items");
     const itemsListUl = document.getElementById("itemsList")
+    const allItemsLis = document.getElementsByClassName("itemsLis")
 
 
 const createNewStore = event => {
@@ -61,14 +65,16 @@ function fetchStores(){
 function addStores(response){
     response.forEach( store => {
         const storeId = `${store.id}`
+        
+    
 
       let newStoreUl = document.getElementById("stores");
       newStoreUl.innerHTML += `
-    <li> ${store.name} 
+    <li class="itemsLis" id="li-${store.id}"> ${store.name} ${store.id}
     <button class="all-items" id="all-items-${store.id}">See all Items</button><br><br>
     <div id="item-container" hidden="true">
     <ul id="itemsList">
-    
+    ${store.id} 
     </ul>
     </div>
 
@@ -85,38 +91,63 @@ function addStores(response){
     </li>
 
 `
-
     })    
+    // document.getElementById("li-15").innerHTML += `Hi`
     
 }
+
 function hideBtnLoadForm(e){
     e.target.hidden = true
     const newForm = document.getElementById("new-form-container")
     newForm.hidden = false
     
 }
+
 function doAClick(e){
     e.target.hidden = true
     console.log("I was clicked!")
+
+    //e.target identifies specific button clicked
+
     const itemsNames = document.getElementById("itemsList")
     const itemContainer = document.getElementById("item-container")
     itemContainer.hidden = false
-    // itemsNames.innerHTML += `Hi`
+    document.getElementById("li-22").innerHTML += `All items:`
+    
     
     
 }
+
 
 function handleFormClick(e){
     if (e.target.className === "showItemForm"){
         hideBtnLoadForm(e)
     }
-    if (e.target.className === "all-items") {
-        doAClick(e)
-    }
+
+    Array.from(allItemsBtns).forEach(function(item) {
+        if (e.target.id === item.id) {
+            console.log(item.id)
+            
+            //item.id = all-items-# of button clicked
+            doAClick(e)
+            
+            Array.from(allItemsLis).forEach(function(item) {
+                console.log(item.id)
+                
+            })
+            
+        }
+        let itemId = item.id
+    })
+    
+        
+    // if (e.target.className === "all-items") {
+
+    //     doAClick(e)
+         
+    // }
+
 }
-
-
-
 
 
 function handleStoreFormSubmit(e){
@@ -140,6 +171,7 @@ function handleStoreFormSubmit(e){
     })
     newStoreForm.reset()
 }
+
 function handleItemFormSubmit(e){
     e.preventDefault()
 
@@ -173,9 +205,11 @@ function fetchItems(){
     fetch('http://localhost:3000/items')
     .then(res => res.json())
     .then(addItems)
+    
 }
 
 function addItems(response){
+    
     response.forEach( item => {
         const itemStoreId = `${item.store_id}`
 
@@ -183,6 +217,7 @@ function addItems(response){
         
         itemsBox.innerHTML += `
         <li> ${item.name} ${itemStoreId}</li>`
+        
       
     })
 }
