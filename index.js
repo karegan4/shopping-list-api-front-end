@@ -13,10 +13,12 @@
     //items
     const newItemForm = document.getElementById("create-item-form")
     const allItemsBtns = document.getElementsByClassName("all-items")
-    const newItemName = document.getElementById("item-name")
+    const newItemName = document.getElementById("new-item-name")
 
     //ul where new stores will live on the DOM
     const newStoreUl = document.getElementById("stores");
+    const selectStore = document.getElementById("select-store")
+
 
     //items
     const newItemUl = document.getElementById("items");
@@ -36,15 +38,7 @@ const createNewStore = event => {
     event.target.reset();
 };
 
-const createNewItem = event => {
-    event.preventDefault();
-    const newItemName = document.getElementById("new-item-name");
-    const newItem = document.createElement("li");
-    newItemUl.innerText = newItemName.value;
 
-    appendNewItem(newItem);
-    event.target.reset();
-};
 
 const appendNewItem = item => {
     document.getElementById("items").appendChild(item);
@@ -64,33 +58,20 @@ function fetchStores(){
 
 function addStores(response){
     response.forEach( store => {
-        const storeId = `${store.id}`
-        
-    
-
+        console.log(store)
+        let newStore = new Store({id: store.id, name: store.name})
+        newStore.attachToDom()
+        //neeed to create new store objects
+        const selectStore = document.getElementById("select-store")
+        let option = document.createElement("option")
+        option.value = newStore.id
+        option.innerText = newStore.name
+        selectStore.append(option)
       let newStoreUl = document.getElementById("stores");
-      newStoreUl.innerHTML += `
-    <li class="itemsLis" id="li-${store.id}"> ${store.name} ${store.id}
-    <button class="all-items" id="all-items-${store.id}">See all Items</button><br><br>
-    <div id="item-container" hidden="true">
-    <ul id="itemsList">
-    ${store.id} 
-    </ul>
-    </div>
 
-<button class="showItemForm" id="${store.id}">Add Item to ${store.name}</button><br><br>
-<div id="new-form-container" hidden="true">
-    <form id="item-form-${store.id}">
-    <h4>Add New Item:</h4>
-    <label for="item-name">Name:</label>
-    <input type="text" name="name" id="item-name">
-    <input type="submit" value="Create">
-    </form><br><br>
-</div>
+      
+      
 
-    </li>
-
-`
     })    
     // document.getElementById("li-15").innerHTML += `Hi`
     
@@ -103,20 +84,17 @@ function hideBtnLoadForm(e){
     
 }
 
-function doAClick(e){
-    e.target.hidden = true
-    console.log("I was clicked!")
+// function doAClick(e){
+//     e.target.hidden = true
+//     console.log("I was clicked!")
 
-    //e.target identifies specific button clicked
+//     //e.target identifies specific button clicked
 
-    const itemsNames = document.getElementById("itemsList")
-    const itemContainer = document.getElementById("item-container")
-    itemContainer.hidden = false
-    document.getElementById("li-22").innerHTML += `All items:`
+//     const itemsNames = document.getElementById("itemsList")
+//     const itemContainer = document.getElementById("item-container")
+//     itemContainer.hidden = false
     
-    
-    
-}
+// }
 
 
 function handleFormClick(e){
@@ -124,21 +102,21 @@ function handleFormClick(e){
         hideBtnLoadForm(e)
     }
 
-    Array.from(allItemsBtns).forEach(function(item) {
-        if (e.target.id === item.id) {
-            console.log(item.id)
+    // Array.from(allItemsBtns).forEach(function(item) {
+    //     if (e.target.id === item.id) {
+    //         console.log(item.id)
             
-            //item.id = all-items-# of button clicked
-            doAClick(e)
+    //         //item.id = all-items-# of button clicked
+    //         doAClick(e)
             
-            Array.from(allItemsLis).forEach(function(item) {
-                console.log(item.id)
+    //         Array.from(allItemsLis).forEach(function(item) {
+    //             console.log(item.id)
                 
-            })
+    //         })
             
-        }
-        let itemId = item.id
-    })
+    //     }
+    //     // let itemId = item.id
+    // })
     
         
     // if (e.target.className === "all-items") {
@@ -175,23 +153,28 @@ function handleStoreFormSubmit(e){
 function handleItemFormSubmit(e){
     e.preventDefault()
 
+    const name = document.getElementById('new-item-name').value
+    const store_id = document.getElementById('select-store').value
+
     let newItemObj = {
-        name: newItemName.value
+        name,
+        store_id
     }
+    
     let configObj = {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json"
         },
-        body: JSON.stringify(newStoreObj)
+        body: JSON.stringify(newItemObj)
     }
     fetch('http://localhost:3000/items', configObj)
     .then(res => res.json())
     .then(data => {
-
+        
     })
-    itemFormWithId.reset()
+    newItemForm.reset()
 }
 
 // function hideForm(){
@@ -211,14 +194,16 @@ function fetchItems(){
 function addItems(response){
     
     response.forEach( item => {
-        const itemStoreId = `${item.store_id}`
-
-        const itemsBox = document.getElementById("itemsList")
+        console.log(item)
+       
+        let newItem = new Item({id: item.id, name: item.name, store_id: item.store_id})
+        console.log(newItem.store_id)
         
-        itemsBox.innerHTML += `
-        <li> ${item.name} ${itemStoreId}</li>`
         
-      
+        // newItem.attachToDom()
+        
+        // document.getElementById("itemsList").innerHTML += `${newItem.name}`
+    
     })
 }
 // function addItems(response){
@@ -238,15 +223,13 @@ function addItems(response){
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  
     //attach event listeners
     fetchStores()
     fetchItems()
     newStoreForm.addEventListener("submit", handleStoreFormSubmit)
     stores.addEventListener('click', handleFormClick)
-    
+    newItemForm.addEventListener("submit", handleItemFormSubmit)
     // document.getElementsByClassName("all-items")
-    
     
 });
   
