@@ -9,6 +9,7 @@ class Store {
         this.storeList = document.getElementById('stores')
         this.sorted = false
         this.allItemsBtnID = `all-items-${this.id}`
+        this.deleteBtns = `delete-${this.id}`
         
         Store.all.push(this)
     }
@@ -25,27 +26,29 @@ class Store {
    
     addEventListeners(){
         
-        let a = document.getElementById(this.allItemsBtnID)
-        a.addEventListener('click', this.displayItems)
+        // let a = document.getElementById(this.allItemsBtnID)
+        // a.addEventListener('click', this.displayItems)
         
         // this.element.addEventListener('click', this.displayItems)
-        
+        let b = document.getElementById(this.deleteBtns)
+        b.addEventListener('click', this.handleStoreClick)
     }
 
         fullRender(){
            
         this.element.innerHTML = `
-        <h3>${this.name}</h3>
-        <h3>${this.id}</h3>
-
-        
-        
-        <button class="all-items" id="all-items-${this.id}">See all Items</button><br><br>
+        <div id=store-boxes>
+        <h3 id="store-names"><span><u>${this.name} </u>&nbsp; &nbsp; <button class="delete-store" id="delete-${this.id}" data-id="${this.id}">Delete This Store</button></span></h3>
+        <br>
+        <label id="current-items">Current Items for this Store:</label>
+        <br><br>
         <ul class="itemsList" id="itemsList">
         <li class="iListt" id="${this.id}">
         </li>
         
         </ul>
+        </div>
+        <br><br>
         `
         //All of store display info (per store) here
         
@@ -106,13 +109,19 @@ class Store {
         })
         
         
-        
-        
-    
-        
     }
 
     
+    
+    handleStoreClick = (e) => {
+        
+        let id = e.target.dataset.id
+        
+        if (e.target.className === "delete-store"){
+            
+            deleteStore(id)
+        }
+    }
     
 }
 //id="${this.element.id}"

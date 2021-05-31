@@ -4,29 +4,28 @@
     //form and relevant input fields
 
     
-
+//test
 
     //stores
     const newStoreForm = document.getElementById("create-store-form");
     const newStoreName = document.getElementById("new-store-name");
-  
+    
+
     //items
     const newItemForm = document.getElementById("create-item-form")
     const allItemsBtns = document.getElementsByClassName("all-items")
     const newItemName = document.getElementById("new-item-name")
-
-    //ul where new stores will live on the DOM
-    const newStoreUl = document.getElementById("stores");
-    const selectStore = document.getElementById("select-store")
-
-
-    //items
     const newItemUl = document.getElementById("items");
     const itemsListUl = document.getElementById("itemsList")
     const allItemsLis = document.getElementsByClassName("itemsLis")
 
+    //ul where new stores will live on the DOM
+    const newStoreUl = document.getElementById("stores");
+    const storeListUl = document.getElementById("store-list")
+    const selectStore = document.getElementById("select-store")
 
-const createNewStore = event => {
+
+    const createNewStore = event => {
     event.preventDefault();
     //stop form from trying to submit
 
@@ -97,36 +96,6 @@ function hideBtnLoadForm(e){
 // }
 
 
-function handleFormClick(e){
-    if (e.target.className === "showItemForm"){
-        hideBtnLoadForm(e)
-    }
-
-    // Array.from(allItemsBtns).forEach(function(item) {
-    //     if (e.target.id === item.id) {
-    //         console.log(item.id)
-            
-    //         //item.id = all-items-# of button clicked
-    //         doAClick(e)
-            
-    //         Array.from(allItemsLis).forEach(function(item) {
-    //             console.log(item.id)
-                
-    //         })
-            
-    //     }
-    //     // let itemId = item.id
-    // })
-    
-        
-    // if (e.target.className === "all-items") {
-
-    //     doAClick(e)
-         
-    // }
-
-}
-
 
 function handleStoreFormSubmit(e){
     e.preventDefault()
@@ -145,10 +114,23 @@ function handleStoreFormSubmit(e){
     }
     fetch('http://localhost:3000/stores', configObj)
     .then(res => res.json())
-    .then(data => {
+    .then(json => {
+        let store = new Store(json)
+        store.attachToDom()
     })
     newStoreForm.reset()
 }
+
+function addItemToDom(item) {
+    itemsListUl.innerHTML += `
+    <div id="item-${item.id}">
+    <li>
+    <span class="name">${item.name}</span>
+    </li>
+    </div>
+    `
+}
+
 
 function handleItemFormSubmit(e){
     e.preventDefault()
@@ -171,8 +153,9 @@ function handleItemFormSubmit(e){
     }
     fetch('http://localhost:3000/items', configObj)
     .then(res => res.json())
-    .then(data => {
-        
+    .then(json => {
+        let item = new Item(json)
+        item.attachToDom()
     })
     newItemForm.reset()
 }
@@ -200,25 +183,54 @@ function addItems(response){
         console.log(newItem.store_id)
         
         
-        // newItem.attachToDom()
+        newItem.attachToDom(item)
         
         // document.getElementById("itemsList").innerHTML += `${newItem.name}`
     
     })
+    
 }
-// function addItems(response){
-//     // response.data.forEach( item => {
-//     // //     const itemStoreId = `${item.store_id}`
-//     // // const itemsBox = document.getElementById("itemsContainer")
-     
-//     // //  itemsBox.innerHTML += `
-//     // // <li> ${item.name}</li>
-//     // // `  
-//     // addItemToDom(item)
-//     response.data.each ( item => {
 
-//     })
-// }
+
+function deleteItem(id){
+    let configObj = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        }
+    }
+    fetch(`http://localhost:3000/items/${id}`, configObj)
+    .then(res => res.json())
+    .then(json => {
+        alert(json.message)
+    })
+    
+    let item = document.getElementById(`item-${id}`)
+
+    item.remove()
+}
+
+function deleteStore(id) {
+    let configObj = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        }
+        
+    }
+    fetch(`http://localhost:3000/stores/${id}`, configObj)
+    .then(res => res.json())
+    .then(json => {
+        alert(json.message)
+    })
+    
+    let store = document.getElementById(`store-${id}`)
+
+    store.remove()
+}
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -227,9 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchStores()
     fetchItems()
     newStoreForm.addEventListener("submit", handleStoreFormSubmit)
-    stores.addEventListener('click', handleFormClick)
+    
     newItemForm.addEventListener("submit", handleItemFormSubmit)
     // document.getElementsByClassName("all-items")
-    
+    itemsListUl.addEventListener('click', handleListClick)
 });
   

@@ -49,21 +49,42 @@ class Item{
         return Item.all.find(item => item.id == id)
     }
 
+    addEventListeners(){
+        
+        this.element.addEventListener('click', this.handleListClick)
+    }
+
     attachToDom(){
         
         this.itemList.append(this.fullRender())
         
+        this.addEventListeners()
     }
 
     fullRender(){
         
         this.element.innerHTML = `
         <li>
-        <span class="name">${this.name} &nbsp; &nbsp; <button>Edit Item</button> &nbsp; &nbsp; <button> Delete Item </button></span>
-        </li><br>
+        <span class="name">${this.name} &nbsp; &nbsp; <button>Edit Item</button> &nbsp; &nbsp; <button class="delete" data-id="${this.id}">Delete Item</button></span>
+        </li>
+        
+        <br>
         `
         
         return this.element
+        
+    }
+
+    
+
+    handleListClick = (e) => {
+        
+        let id = e.target.dataset.id
+        
+        if (e.target.className === "delete"){
+            
+            deleteItem(id)
+        }
         
     }
 }

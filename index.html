@@ -11,25 +11,32 @@
         <center> 
             <h1>Build a Shopping List App</h1>
         </center>
-        
-        <form id="create-store-form" action="#" method="post">
-            <label for="new-store-name">Store Name:</label>
+        <div id="store-form-box">
+            
+            <h4>Add New Store:</h4>
+            <form id="create-store-form" action="#" method="post">
+            <label for="new-store-name"><strong>Name:</strong> </label>
             <input type="text" id="new-store-name" name="new-store-name" placeholder="Store Name">
             <input type="submit" value="Add Store">
         </form>
         <br>
+        </div>
+        
+        <br>
 
-        <h2>Stores</h2>
+        
         <div id="store-list">
-            
-            <h4>Add New Item:</h4>
-            <form id="create-item-form" action="#" method="post">
-            <label for="new-item-name">Item Name:</label>
-            <input type="text" name="new-item-name" id="new-item-name">
-            <label for="store-name">Store:</label>
-            <select id="select-store"></select>
-            <input type="submit" value="Add Item">
-            </form>
+            <div id="item-form-box">
+                <h4>Add New Item:</h4>
+                <form id="create-item-form" action="#" method="post">
+                <label for="new-item-name"><strong>Name:</strong></label>
+                <input type="text" name="new-item-name" id="new-item-name" placeholder="Item Name">
+                <label for="store-name"><strong>Store:</strong></label>
+                <select id="select-store"></select>
+                <input type="submit" value="Add Item">
+                </form><br>
+            </div>
+            <center><h2><u>Stores</u></h2></center>
                 <ul style="font-weight: bold" id="stores">
                     
                 </ul>
