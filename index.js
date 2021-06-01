@@ -59,7 +59,7 @@ function addStores(response){
     response.forEach( store => {
         console.log(store)
         let newStore = new Store({id: store.id, name: store.name})
-        newStore.attachToDom()
+        newStore.attachToDom(store)
         //neeed to create new store objects
         const selectStore = document.getElementById("select-store")
         let option = document.createElement("option")
@@ -231,6 +231,50 @@ function deleteStore(id) {
     store.remove()
 }
 
+function addUpdateStoreFields(storeId){
+    let store = document.querySelector(`#store-${storeId} li`)
+    // let name = document.getElementById('store-names').innerText
+    let name = store.querySelector('u').innerText
+    
+    let updateForm = `
+    <h5 id="edit-store-name">Edit Name: <input type="text" name="name" value="${name}" id="update-name-${storeId}"></h5>
+    `
+    let formDiv = document.createElement('div')
+    formDiv.id = `update-form-${storeId}`
+    formDiv.innerHTML = updateForm
+    store.append(formDiv)
+}
+
+
+
+// function sendPatchRequest(storeId) {
+//     const name = document.getElementById(`update-name-${storeId}`).value
+//     let storeObj = {
+//         name
+//     }
+//     let configObj = {
+//         method: 'PATCH',
+//         headers: {
+//             "Content-Type": "application/json",
+//             "Accept": "application/json"
+//         },
+//         body: JSON.stringify(storeObj)
+//     }
+//     fetch(`http://localhost:3000/stores/${storeId}`, configObj)
+//     .then(res => res.json())
+//     .then(response => updateStoreOnDom(response.data))
+    
+//     let form = document.getElementById(`update-form-${storeId}`)
+//     form.remove()
+// }
+
+// function updateStoreOnDom(store) {
+    
+//     let liStore = document.querySelector(`#store-${store.id} li`)
+//     debugger
+//     liStore.querySelector('.name').innerText = store.name
+    
+// }
 
 
 document.addEventListener("DOMContentLoaded", () => {

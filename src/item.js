@@ -65,7 +65,7 @@ class Item{
         
         this.element.innerHTML = `
         <li>
-        <span class="name">${this.name} &nbsp; &nbsp; <button>Edit Item</button> &nbsp; &nbsp; <button class="delete" data-id="${this.id}">Delete Item</button></span>
+        <span class="name">- ${this.name} &nbsp; &nbsp; <button>Edit Item</button> &nbsp; &nbsp; <button class="delete" data-id="${this.id}">Delete Item</button></span>
         </li>
         
         <br>

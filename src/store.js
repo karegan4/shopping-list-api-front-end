@@ -10,6 +10,7 @@ class Store {
         this.sorted = false
         this.allItemsBtnID = `all-items-${this.id}`
         this.deleteBtns = `delete-${this.id}`
+        this.editBtns = `update-${this.id}`
         
         Store.all.push(this)
     }
@@ -32,23 +33,37 @@ class Store {
         // this.element.addEventListener('click', this.displayItems)
         let b = document.getElementById(this.deleteBtns)
         b.addEventListener('click', this.handleStoreClick)
+
+        let c = document.getElementById(this.editBtns)
+        c.addEventListener('click', this.handleStoreClick)
     }
 
         fullRender(){
            
         this.element.innerHTML = `
+        <center>
         <div id=store-boxes>
-        <h3 id="store-names"><span><u>${this.name} </u>&nbsp; &nbsp; <button class="delete-store" id="delete-${this.id}" data-id="${this.id}">Delete This Store</button></span></h3>
+        
+        
+        
+        <h3 id="store-names"><li><u name="name" id="${this.element.id}">${this.name} </u></li></h3>
         <br>
         <label id="current-items">Current Items for this Store:</label>
         <br><br>
-        <ul class="itemsList" id="itemsList">
+        <ul style="list-style: none;" class="itemsList" id="itemsList">
         <li class="iListt" id="${this.id}">
         </li>
         
         </ul>
-        </div>
         <br><br>
+        <span>
+        <button class="update-store" id="update-${this.id}" data-id="${this.id}"> Edit This Store </button>&nbsp; &nbsp; &nbsp;
+        <button class="delete-store" id="delete-${this.id}" data-id="${this.id}">Delete This Store</button>
+        
+        </span>
+        <br><br>
+        </center></div>
+        <br>
         `
         //All of store display info (per store) here
         
@@ -111,6 +126,38 @@ class Store {
         
     }
 
+    updateStoreOnDom(store) {
+    
+        let liStore = document.querySelector(`#store-${store.id} li`)
+        // debugger
+        liStore.querySelector('u').innerText = store.name
+        
+    }
+    
+    sendPatchRequest(storeId) {
+        const name = document.getElementById(`update-name-${storeId}`).value
+        let storeObj = {
+            name
+        }
+        let configObj = {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(storeObj)
+        }
+        fetch(`http://localhost:3000/stores/${storeId}`, configObj)
+        .then(res => res.json())
+        .then(response => 
+            
+            this.updateStoreOnDom(response) )
+        // debugger
+        let form = document.getElementById(`update-form-${storeId}`)
+        form.remove()
+    }
+    
+    
     
     
     handleStoreClick = (e) => {
@@ -118,8 +165,20 @@ class Store {
         let id = e.target.dataset.id
         
         if (e.target.className === "delete-store"){
-            
             deleteStore(id)
+        }
+        else if(e.target.className === "update-store") {
+            let storeId = e.target.dataset.id
+            
+            e.target.className = "save"
+            e.target.innerText = "Save"
+            addUpdateStoreFields(storeId)
+        }
+        else if(e.target.className === "save"){
+            let storeId = e.target.dataset.id
+            e.target.className = "update-store"
+            e.target.innerText = "Edit This Store"
+            this.sendPatchRequest(storeId)
         }
     }
     
