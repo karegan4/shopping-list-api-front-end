@@ -66,6 +66,8 @@ function addStores(response){
         option.value = newStore.id
         option.innerText = newStore.name
         selectStore.append(option)
+
+        
       let newStoreUl = document.getElementById("stores");
 
       
@@ -117,7 +119,7 @@ function handleStoreFormSubmit(e){
     .then(json => {
         let store = new Store(json)
         store.attachToDom()
-    })
+    })  
     newStoreForm.reset()
 }
 
@@ -245,6 +247,20 @@ function addUpdateStoreFields(storeId){
     store.append(formDiv)
 }
 
+// function addUpdateItemFields(itemId) {
+//     let item = document.querySelector(`#item-${itemId} li`)
+//     let name = item.querySelector('.name').innerText
+// debugger
+//     let updateForm = `
+//     <input type="text" name="name" value="${name}" id="update-name-${itemId}">
+
+//     `
+//     let formDiv = document.createElement('div')
+//     formDiv.id = `update-form-${item.id}`
+//     formDiv.innerHTML = updateForm
+//     item.append(formDiv)
+// }
+
 
 
 // function sendPatchRequest(storeId) {
@@ -276,6 +292,10 @@ function addUpdateStoreFields(storeId){
     
 // }
 
+// function updateItemOnDom(item) {
+//     let liItem = document.querySelector(`#item-${itemId} li`)
+//     debugger
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
 

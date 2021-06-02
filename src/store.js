@@ -46,7 +46,7 @@ class Store {
         
         
         
-        <h3 id="store-names"><li><u name="name" id="${this.element.id}">${this.name} </u></li></h3>
+        <h3 id="store-names"><li><u name="name" id="${this.element.id}">${this.name}</u></li></h3>
         <br>
         <label id="current-items">Current Items for this Store:</label>
         <br><br>
@@ -78,6 +78,7 @@ class Store {
 
     static find(id){
         return Store.all.find(c => c.id == id)
+        
     }
 
 
