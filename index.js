@@ -39,9 +39,9 @@
 
 
 
-const appendNewItem = item => {
-    document.getElementById("items").appendChild(item);
-}
+// const appendNewItem = item => {
+//     document.getElementById("items").appendChild(item);
+// }
 
 const appendNewStore = store => {
     document.getElementById("stores").appendChild(store);
@@ -307,5 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
     newItemForm.addEventListener("submit", handleItemFormSubmit)
     // document.getElementsByClassName("all-items")
     itemsListUl.addEventListener('click', handleListClick)
+    
 });
   

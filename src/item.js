@@ -12,6 +12,7 @@ class Item{
         
 
         Item.all.push(this)
+        // debugger
     }
 
     get itemList(){
@@ -66,9 +67,15 @@ class Item{
 
     fullRender(){
         
+        
         this.element.innerHTML = `
         <li>
-        <span>- <label class="name" id="${this.element.id}">${this.name}</label>&nbsp; &nbsp; <button class="update-item" id="update-${this.id}" data-id="${this.id}">Edit Item</button> &nbsp; &nbsp; <button class="delete" data-id="${this.id}">Delete Item</button></span>
+        <span>- <label class="name" id="${this.element.id}">${this.name}</label>&nbsp; &nbsp; 
+        
+        <button class="update-item" id="update-${this.id}" data-id="${this.id}">
+        Edit Item</button> &nbsp; &nbsp; 
+        <button class="delete" data-id="${this.id}">
+        Delete Item</button></span>
         </li>
         
         <br>
@@ -81,9 +88,36 @@ class Item{
 
 
     updateItemOnDom(item) {
+        // item.store_id = this.store_id
+
         let liItem = document.querySelector(`#item-${item.id} li`)
         
         liItem.querySelector('.name').innerText = `${item.name}`
+        // liItem.remove()
+        // debugger
+        let wholeItem = document.querySelector(`#item-${item.id}`)
+        let liToMoveTo = document.getElementById(`${item.store_id}`)
+        liToMoveTo.appendChild(wholeItem)
+
+        // let moveItem = document.createElement("li")
+        // moveItem.innerText += liItem.innerHTML
+        // liToMoveTo.innerText += moveItem
+        
+        // moveItem.innerText += liItem.innerHTML
+        // debugger
+        
+        // let oldStoreId = item.store_id
+        // let newStoreId = this.store_id
+        // let oldStoreId = newStoreId
+        
+
+        // debugger
+        // fetchItems(this)
+        // fetchItems()
+        // debugger
+        // return oldStoreId
+        
+        
         
     }
 
@@ -91,21 +125,29 @@ class Item{
 
     sendPatchItemRequest(itemId){
         const name = document.getElementById(`update-name-${itemId}`).value
+        const store_id = document.getElementById(`update-store-${itemId}`).value
+        
         
         let itemObj = {
-            name
+            name,
+            store_id
         }
+        
         let configObj = {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                
             },
+            
             body: JSON.stringify(itemObj)
         }
+        
         fetch(`http://localhost:3000/items/${itemId}`, configObj)
         .then(res =>  res.json())
         .then(response =>
+            
             this.updateItemOnDom(response))
             
             let form = document.getElementById(`update-form-${itemId}`)
@@ -118,10 +160,10 @@ class Item{
         let updateForm = `<br>
         <span> 
         Edit Item Name: <input type="text" name="name" value="${this.name}" id="update-name-${itemId}">
-        Edit Item Store: <select id="store-select"></select>
+        Edit Item Store: <select id="update-store-${itemId}" name="store_id" value="${this.store_id}"></select>
         </span>
         `
-
+        
         
 
         let formDiv = document.createElement('div')
@@ -145,29 +187,38 @@ class Item{
             e.target.className = "save"
             e.target.innerText = "Save"
             this.addUpdateItemFields(itemId)
-        
+
+            let storeId = this.store_id
+            
             let findStore = Store.all.forEach(el => {
                 console.log(el.name)
                 let storeNames = el.name
                 
-                let findStore = document.getElementById("store-select")
+                let findStore = document.getElementById(`update-store-${itemId}`)
                 let option = document.createElement("option")
-                option.value = storeNames
+                option.value = el.id
+                
+                
                 option.innerText = storeNames
                 findStore.append(option)
-
+                
             }
             
             )
+            
             return findStore
             
         }
         else if (e.target.className === "save") {
             let itemId = e.target.dataset.id
             
+
             e.target.className = "update-item"
             e.target.innerText = "Edit Item"
             this.sendPatchItemRequest(itemId)
+            // debugger
+
+            
         }
     }
 }
