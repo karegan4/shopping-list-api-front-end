@@ -76,9 +76,12 @@ class Item{
         Edit Item</button> &nbsp; &nbsp; 
         <button class="delete" data-id="${this.id}">
         Delete Item</button></span>
+        <br><br>
+        
         </li>
         
         <br>
+      
         `
         
         return this.element
@@ -202,9 +205,7 @@ class Item{
                 option.innerText = storeNames
                 findStore.append(option)
                 
-            }
-            
-            )
+            })
             
             return findStore
             
@@ -217,8 +218,7 @@ class Item{
             e.target.innerText = "Edit Item"
             this.sendPatchItemRequest(itemId)
             // debugger
-
-            
         }
     }
+
 }

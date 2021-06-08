@@ -43,9 +43,9 @@
 //     document.getElementById("items").appendChild(item);
 // }
 
-const appendNewStore = store => {
-    document.getElementById("stores").appendChild(store);
-}
+// const appendNewStore = store => {
+//     document.getElementById("stores").appendChild(store);
+// }
 
 function fetchStores(){
     fetch('http://localhost:3000/stores')
@@ -74,29 +74,8 @@ function addStores(response){
       
 
     })    
-    // document.getElementById("li-15").innerHTML += `Hi`
     
 }
-
-function hideBtnLoadForm(e){
-    e.target.hidden = true
-    const newForm = document.getElementById("new-form-container")
-    newForm.hidden = false
-    
-}
-
-// function doAClick(e){
-//     e.target.hidden = true
-//     console.log("I was clicked!")
-
-//     //e.target identifies specific button clicked
-
-//     const itemsNames = document.getElementById("itemsList")
-//     const itemContainer = document.getElementById("item-container")
-//     itemContainer.hidden = false
-    
-// }
-
 
 
 function handleStoreFormSubmit(e){
@@ -162,13 +141,6 @@ function handleItemFormSubmit(e){
     newItemForm.reset()
 }
 
-// function hideForm(){
-//     let form = document.getElementById("create-item-form")
-//     form.style.display = "none";
-// }
-
-    //grab all the necessary DOM elements
-
 function fetchItems(){
     fetch('http://localhost:3000/items')
     .then(res => res.json())
@@ -186,9 +158,7 @@ function addItems(response){
         
         
         newItem.attachToDom(item)
-        
-        // document.getElementById("itemsList").innerHTML += `${newItem.name}`
-    
+            
     })
     
 }
@@ -209,7 +179,7 @@ function deleteItem(id){
     })
     
     let item = document.getElementById(`item-${id}`)
-
+    // debugger
     item.remove()
 }
 
@@ -229,9 +199,11 @@ function deleteStore(id) {
     })
     
     let store = document.getElementById(`store-${id}`)
-
+   
     store.remove()
 }
+
+
 
 function addUpdateStoreFields(storeId){
     let store = document.querySelector(`#store-${storeId} li`)
@@ -240,6 +212,7 @@ function addUpdateStoreFields(storeId){
     
     let updateForm = `
     <h5 id="edit-store-name">Edit Name: <input type="text" name="name" value="${name}" id="update-name-${storeId}"></h5>
+    <h6>Click the "Save" button below when you're finished.</h6>
     `
     let formDiv = document.createElement('div')
     formDiv.id = `update-form-${storeId}`
@@ -247,65 +220,45 @@ function addUpdateStoreFields(storeId){
     store.append(formDiv)
 }
 
-// function addUpdateItemFields(itemId) {
-//     let item = document.querySelector(`#item-${itemId} li`)
-//     let name = item.querySelector('.name').innerText
-// debugger
-//     let updateForm = `
-//     <input type="text" name="name" value="${name}" id="update-name-${itemId}">
+function deleteAll(e) {
+    if(e.target.className === "delete-all-items-btn"){
+        console.log("clicked")
+        let allItems = Item.all
+        // debugger
+        let allItemsIterate = allItems.forEach(el => {
+            
+            console.log(el.id)
+            let id = el.id
+            
+            // debugger
+            deleteItem(id)
+        })
+        
+        allItemsIterate
+        // debugger
 
-//     `
-//     let formDiv = document.createElement('div')
-//     formDiv.id = `update-form-${item.id}`
-//     formDiv.innerHTML = updateForm
-//     item.append(formDiv)
-// }
-
-
-
-// function sendPatchRequest(storeId) {
-//     const name = document.getElementById(`update-name-${storeId}`).value
-//     let storeObj = {
-//         name
-//     }
-//     let configObj = {
-//         method: 'PATCH',
-//         headers: {
-//             "Content-Type": "application/json",
-//             "Accept": "application/json"
-//         },
-//         body: JSON.stringify(storeObj)
-//     }
-//     fetch(`http://localhost:3000/stores/${storeId}`, configObj)
-//     .then(res => res.json())
-//     .then(response => updateStoreOnDom(response.data))
+    }
+    // if(e.target.className === "delete-all-stores"){
+    //     console.log("You clicked me!")
+        
+    // }
+}
+function addEventListeners() {
+    let deleteAlItems = document.getElementById("delete-all-itemss")
+    deleteAlItems.addEventListener('click', deleteAll)
     
-//     let form = document.getElementById(`update-form-${storeId}`)
-//     form.remove()
-// }
-
-// function updateStoreOnDom(store) {
-    
-//     let liStore = document.querySelector(`#store-${store.id} li`)
-//     debugger
-//     liStore.querySelector('.name').innerText = store.name
-    
-// }
-
-// function updateItemOnDom(item) {
-//     let liItem = document.querySelector(`#item-${itemId} li`)
-//     debugger
-// }
-
+    // let deleteAllStores = document.getElementById("delete-all-stores")
+    // deleteAllStores.addEventListener('click', deleteAll)
+}
 document.addEventListener("DOMContentLoaded", () => {
 
     //attach event listeners
     fetchStores()
     fetchItems()
+    addEventListeners()
     newStoreForm.addEventListener("submit", handleStoreFormSubmit)
     
     newItemForm.addEventListener("submit", handleItemFormSubmit)
-    // document.getElementsByClassName("all-items")
     itemsListUl.addEventListener('click', handleListClick)
     
 });

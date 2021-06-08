@@ -59,8 +59,9 @@ class Store {
         <span>
         <button class="update-store" id="update-${this.id}" data-id="${this.id}"> Edit This Store </button>&nbsp; &nbsp; &nbsp;
         <button class="delete-store" id="delete-${this.id}" data-id="${this.id}">Delete This Store</button>
-        
+        <br><br>
         </span>
+        *Deleting store will delete all store items as well.*
         <br><br>
         </center></div>
         <br>
@@ -163,10 +164,25 @@ class Store {
     
     handleStoreClick = (e) => {
         
-        let id = e.target.dataset.id
+        
         
         if (e.target.className === "delete-store"){
+            let storeItems = this.items
+            
+            let deleteStoreItems = storeItems.forEach(el => {
+                console.log(el.id)
+                
+                let id = el.id
+                // debugger
+                deleteItem(id)
+                
+            })
+            deleteStoreItems
+            // debugger
+            let id = e.target.dataset.id
             deleteStore(id)
+            
+            // debugger
         }
         else if(e.target.className === "update-store") {
             let storeId = e.target.dataset.id
@@ -181,6 +197,7 @@ class Store {
             e.target.innerText = "Edit This Store"
             this.sendPatchRequest(storeId)
         }
+        
     }
     
 }
