@@ -3,9 +3,6 @@
   
     //form and relevant input fields
 
-    
-//test
-
     //stores
     const newStoreForm = document.getElementById("create-store-form");
     const newStoreName = document.getElementById("new-store-name");
@@ -37,16 +34,6 @@
     event.target.reset();
 };
 
-
-
-// const appendNewItem = item => {
-//     document.getElementById("items").appendChild(item);
-// }
-
-// const appendNewStore = store => {
-//     document.getElementById("stores").appendChild(store);
-// }
-
 function fetchStores(){
     fetch('http://localhost:3000/stores')
     .then(res => res.json())
@@ -69,9 +56,6 @@ function addStores(response){
 
         
       let newStoreUl = document.getElementById("stores");
-
-      
-      
 
     })    
     
@@ -179,7 +163,6 @@ function deleteItem(id){
     })
     
     let item = document.getElementById(`item-${id}`)
-    // debugger
     item.remove()
 }
 
@@ -207,7 +190,6 @@ function deleteStore(id) {
 
 function addUpdateStoreFields(storeId){
     let store = document.querySelector(`#store-${storeId} li`)
-    // let name = document.getElementById('store-names').innerText
     let name = store.querySelector('u').innerText
     
     let updateForm = `
@@ -224,24 +206,17 @@ function deleteAll(e) {
     if(e.target.className === "delete-all-items-btn"){
         console.log("clicked")
         let allItems = Item.all
-        // debugger
         let allItemsIterate = allItems.forEach(el => {
             
             console.log(el.id)
             let id = el.id
             
-            // debugger
             deleteItem(id)
         })
         
         allItemsIterate
-        // debugger
 
     }
-    // if(e.target.className === "delete-all-stores"){
-    //     console.log("You clicked me!")
-        
-    // }
 }
 function addEventListeners() {
     let deleteAlItems = document.getElementById("delete-all-itemss")

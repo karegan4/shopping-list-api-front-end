@@ -91,37 +91,14 @@ class Item{
 
 
     updateItemOnDom(item) {
-        // item.store_id = this.store_id
 
         let liItem = document.querySelector(`#item-${item.id} li`)
         
         liItem.querySelector('.name').innerText = `${item.name}`
-        // liItem.remove()
-        // debugger
         let wholeItem = document.querySelector(`#item-${item.id}`)
         let liToMoveTo = document.getElementById(`${item.store_id}`)
         liToMoveTo.appendChild(wholeItem)
-
-        // let moveItem = document.createElement("li")
-        // moveItem.innerText += liItem.innerHTML
-        // liToMoveTo.innerText += moveItem
-        
-        // moveItem.innerText += liItem.innerHTML
-        // debugger
-        
-        // let oldStoreId = item.store_id
-        // let newStoreId = this.store_id
-        // let oldStoreId = newStoreId
-        
-
-        // debugger
-        // fetchItems(this)
-        // fetchItems()
-        // debugger
-        // return oldStoreId
-        
-        
-        
+ 
     }
 
   
@@ -212,12 +189,9 @@ class Item{
         }
         else if (e.target.className === "save") {
             let itemId = e.target.dataset.id
-            
-
             e.target.className = "update-item"
             e.target.innerText = "Edit Item"
             this.sendPatchItemRequest(itemId)
-            // debugger
         }
     }
 
